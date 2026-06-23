@@ -422,7 +422,7 @@ MIT © 2025 [Chigurupati Venkat Sai Kiran](https://github.com/YOUR_USERNAME) —
 
 **Chigurupati Venkat Sai Kiran**
 
-*M.Tech CSE (Specialization in AI & ML) · Capstone 25MAI1006 · 2025–26*
+*M.Tech CSE (Specialization in AI & ML) · Capstone 25MAI1006 · 2025–27*
 
 <br/>
 
