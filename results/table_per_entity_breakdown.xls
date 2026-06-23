@@ -1,0 +1,7 @@
+Method,Entity,Precision,Recall,F1,Support
+Full,Chemical,0.9245,0.9478,0.936,5384
+Full,Disease,0.8118,0.8786,0.8439,4424
+LoRA,Chemical,0.9269,0.9473,0.937,5384
+LoRA,Disease,0.8206,0.8779,0.8483,4424
+QLoRA,Chemical,0.9284,0.9484,0.9383,5384
+QLoRA,Disease,0.8175,0.882,0.8485,4424
