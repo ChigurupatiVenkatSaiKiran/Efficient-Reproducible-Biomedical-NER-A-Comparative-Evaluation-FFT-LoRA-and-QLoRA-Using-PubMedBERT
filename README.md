@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧬 Parameter-Efficient Fine-Tuning of PubMedBERT: Boosting Data and Memory Efficiency in Biomedical Named Entity Recognition
+# 🧬 Efficient and Reproducible Biomedical Named Entity Recognition: A Comparative Evaluation of Full Fine-Tuning, LoRA, and QLoRA Using PubMedBERT
 
 ### *Does parameter-efficient fine-tuning beat full fine-tuning on biomedical NER — and does it win even harder with less data?*
 
@@ -396,9 +396,9 @@ pubmedbert-bc5cdr-peft-comparison/
 
 ```bibtex
 @misc{chigurupati2025pubmedbert,
-  title     = {Data-Efficient and Resource-Aware Fine-Tuning of PubMedBERT for
-               Biomedical Named Entity Recognition: A Comparative Study of
-               Full Fine-Tuning, LoRA, and QLoRA on BC5CDR},
+  title     = {Efficient and Reproducible Biomedical Named Entity Recognition:
+               A Comparative Evaluation of Full Fine-Tuning, LoRA, and QLoRA
+               Using PubMedBERT},
   author    = {Chigurupati, Venkat Sai Kiran},
   year      = {2025},
   note      = {M.Tech CSE (AI & ML) Capstone Project, Course 25MAI1006},

@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
 type: software
-title: "Data-Efficient and Resource-Aware Fine-Tuning of PubMedBERT for Biomedical Named Entity Recognition: A Comparative Study of Full Fine-Tuning, LoRA, and QLoRA on BC5CDR"
+title: "Efficient and Reproducible Biomedical Named Entity Recognition: A Comparative Evaluation of Full Fine-Tuning, LoRA, and QLoRA Using PubMedBERT"
 authors:
   - family-names: "Chigurupati"
     given-names: "Venkat Sai Kiran"
