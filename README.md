@@ -203,7 +203,7 @@ Cross-cutting: Seed Control (42, 123) + Crash-Resilient Checkpoint & Results Log
 | Method | Avg Train Time | Peak VRAM | Trainable Params |
 |:---|:---:|:---:|:---:|
 | Full FT | 5.3 min | 2.24 GB | 108.9M |
-| LoRA | 8.9 min | 0.78 GB | 5.3M |
+| LoRA | 8.9 min | ~0.81 GB | 5.3M |
 | QLoRA | 13.2 min | **0.50 GB** | 5.3M |
 
 > QLoRA uses the least memory (4× less than Full FT) at the cost of slightly longer training time due to quantization overhead.

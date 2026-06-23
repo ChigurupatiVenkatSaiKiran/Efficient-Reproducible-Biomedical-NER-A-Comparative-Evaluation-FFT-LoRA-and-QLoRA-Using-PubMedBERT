@@ -8,7 +8,7 @@
 
 <rect x="185" y="20" width="250" height="48" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
 <text x="310" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="#711113">BC5CDR Dataset</text>
-<text x="310" y="57" text-anchor="middle" font-size="10" fill="#993C1D">Chemical &amp; Disease NER  ·  16,400 sentences</text>
+<text x="310" y="57" text-anchor="middle" font-size="10" fill="#993C1D">Train 5,228  ·  Val 5,330  ·  Test 5,865 sentences</text>
 <line x1="310" y1="68" x2="310" y2="90" stroke="#666" stroke-width="1.2" marker-end="url(#a)"/>
 
 <rect x="135" y="90" width="350" height="48" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
@@ -32,13 +32,13 @@
 
 <rect x="232" y="250" width="156" height="80" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
 <text x="310" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#633806">LoRA</text>
-<text x="310" y="290" text-anchor="middle" font-size="10" fill="#854F0B">r=32  ·  Q K V dense</text>
+<text x="310" y="290" text-anchor="middle" font-size="10" fill="#854F0B">r=8  ·  attention adapters</text>
 <text x="310" y="306" text-anchor="middle" font-size="10" fill="#854F0B">LR 3e-4  ·  cosine</text>
 <text x="310" y="322" text-anchor="middle" font-size="10" fill="#854F0B">seeds 42, 123</text>
 
 <rect x="402" y="250" width="156" height="80" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/>
 <text x="480" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#173404">QLoRA</text>
-<text x="480" y="290" text-anchor="middle" font-size="10" fill="#3B6D11">4-bit NF4 + LoRA r=32</text>
+<text x="480" y="290" text-anchor="middle" font-size="10" fill="#3B6D11">4-bit NF4 + LoRA r=8</text>
 <text x="480" y="306" text-anchor="middle" font-size="10" fill="#3B6D11">LR 3e-4  ·  cosine</text>
 <text x="480" y="322" text-anchor="middle" font-size="10" fill="#3B6D11">seeds 42, 123</text>
 
