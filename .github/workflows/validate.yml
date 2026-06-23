@@ -1,0 +1,64 @@
+name: "Validate Notebook"
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'notebooks/**'
+      - 'requirements.txt'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-notebook:
+    name: Lint & Check Notebook Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install nbformat
+        run: pip install nbformat
+
+      - name: Validate notebook JSON structure
+        run: |
+          python - <<'EOF'
+          import nbformat, sys, pathlib
+          nb_path = pathlib.Path("notebooks/PubMedBERT_BC5CDR_Capstone_Project.ipynb")
+          try:
+              nb = nbformat.read(nb_path, as_version=4)
+              nbformat.validate(nb)
+              print(f"✅ Notebook is valid — {len(nb.cells)} cells found")
+          except Exception as e:
+              print(f"❌ Notebook validation failed: {e}")
+              sys.exit(1)
+          EOF
+
+      - name: Check required files exist
+        run: |
+          python - <<'EOF'
+          import sys, pathlib
+          required = [
+              "README.md", "requirements.txt", "LICENSE", "CITATION.cff",
+              "notebooks/PubMedBERT_BC5CDR_Capstone_Project.ipynb",
+              "figures/fig1_data_size_vs_metrics.png",
+              "figures/fig2_final_results_bar.png",
+              "figures/fig3_efficiency.png",
+              "figures/fig4_loss_curves.png",
+              "figures/fig5_radar.png",
+              "figures/fig_per_entity_f1.png",
+              "results/table1_results.xls",
+              "results/table2_efficiency.xls",
+              "results/table_per_entity_breakdown.xls",
+          ]
+          missing = [f for f in required if not pathlib.Path(f).exists()]
+          if missing:
+              print("❌ Missing files:")
+              for f in missing: print(f"   {f}")
+              sys.exit(1)
+          print(f"✅ All {len(required)} required files present")
+          EOF

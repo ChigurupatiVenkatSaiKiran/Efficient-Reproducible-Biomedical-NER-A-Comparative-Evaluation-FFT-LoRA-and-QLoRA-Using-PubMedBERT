@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+type: software
+title: "Data-Efficient and Resource-Aware Fine-Tuning of PubMedBERT for Biomedical Named Entity Recognition: A Comparative Study of Full Fine-Tuning, LoRA, and QLoRA on BC5CDR"
+authors:
+  - family-names: "Chigurupati"
+    given-names: "Venkat Sai Kiran"
+version: 1.0.0
+date-released: 2025-06-01
+license: MIT
+repository-code: "https://github.com/YOUR_USERNAME/pubmedbert-bc5cdr-peft-comparison"
+abstract: >
+  A controlled, reproducible comparison of Full Fine-Tuning, LoRA, and QLoRA
+  for fine-tuning PubMedBERT on the BC5CDR biomedical Named Entity Recognition task.
+  The study runs a 24-experiment grid (3 methods × 4 data sizes × 2 seeds) and finds
+  that LoRA and QLoRA match or slightly exceed full fine-tuning accuracy while using
+  ~20× fewer trainable parameters, 3–4× less GPU memory, and are dramatically more
+  data-efficient (9 F1-point lead at 500 training samples).
+keywords:
+  - biomedical-nlp
+  - named-entity-recognition
+  - parameter-efficient-fine-tuning
+  - lora
+  - qlora
+  - pubmedbert
+  - bc5cdr
+  - transformers
+  - deep-learning

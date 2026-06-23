@@ -2,6 +2,18 @@
 # .gitignore — PubMedBERT BC5CDR PEFT Comparison
 # ==============================================================
 
+# ── Presentation slides (kept locally, not in repo) ──────────
+*.pptx
+*.ppt
+*.key
+
+# ── Loose root-level duplicates (canonical copies in subfolders)
+/Architecture_FINAL.svg
+/fig*.png
+/table*.xls
+/PROJECT_BRIEF.md
+/PubMedBERT\ BC5CDR\ Capstone\ Project.ipynb
+
 # ── Python ──────────────────────────────────────────────────
 __pycache__/
 *.py[cod]

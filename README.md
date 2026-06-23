@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="figures/Architecture_FINAL.svg" width="600" alt="System Architecture"/>
+<img src="figures/Architecture_FINAL.svg" width="620" alt="System Architecture"/>
+
+<br/>
 
 # 🧬 Data-Efficient & Resource-Aware Fine-Tuning of PubMedBERT for Biomedical NER
 
@@ -12,8 +14,14 @@
 [![PEFT](https://img.shields.io/badge/PEFT-LoRA%20%7C%20QLoRA-00A651?style=for-the-badge)](https://github.com/huggingface/peft)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 [![Open In Colab](https://img.shields.io/badge/Open%20in-Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/)
+[![CI](https://img.shields.io/github/actions/workflow/status/YOUR_USERNAME/pubmedbert-bc5cdr-peft-comparison/validate.yml?style=for-the-badge&label=CI&logo=githubactions&logoColor=white)](../../actions)
+[![Cite](https://img.shields.io/badge/Cite%20this-CITATION.cff-informational?style=for-the-badge)](CITATION.cff)
 
-**Chigurupati Venkat Sai Kiran** · Capstone Project · 2025–26
+<br/>
+
+| 👤 **Author** | 🎓 **Degree** | 📅 **Year** | 🏷️ **Course** |
+|:---:|:---:|:---:|:---:|
+| Chigurupati Venkat Sai Kiran | M.Sc. Artificial Intelligence | 2025–26 | 25MAI1006 |
 
 </div>
 
