@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧬 PubMedBERT · BC5CDR · PEFT Comparison
+# 🧬 Parameter-Efficient Fine-Tuning of PubMedBERT: Boosting Data and Memory Efficiency in Biomedical Named Entity Recognition
 
 ### *Does parameter-efficient fine-tuning beat full fine-tuning on biomedical NER — and does it win even harder with less data?*
 
@@ -19,7 +19,7 @@
 
 | 👤 Author | 🎓 Programme | 📅 Year | 🏷️ Course |
 |:---:|:---:|:---:|:---:|
-| **Chigurupati Venkat Sai Kiran** | M.Sc. Artificial Intelligence | 2025–26 | 25MAI1006 |
+| **Chigurupati Venkat Sai Kiran** | M.Tech CSE (AI & ML) | 2025–26 | 25MAI1006 |
 
 </div>
 
@@ -401,7 +401,7 @@ pubmedbert-bc5cdr-peft-comparison/
                Full Fine-Tuning, LoRA, and QLoRA on BC5CDR},
   author    = {Chigurupati, Venkat Sai Kiran},
   year      = {2025},
-  note      = {M.Sc. AI Capstone Project, Course 25MAI1006},
+  note      = {M.Tech CSE (AI & ML) Capstone Project, Course 25MAI1006},
   url       = {https://github.com/YOUR_USERNAME/pubmedbert-bc5cdr-peft-comparison}
 }
 ```
@@ -422,7 +422,7 @@ MIT © 2025 [Chigurupati Venkat Sai Kiran](https://github.com/YOUR_USERNAME) —
 
 **Chigurupati Venkat Sai Kiran**
 
-*M.Sc. Artificial Intelligence · Capstone 25MAI1006 · 2025–26*
+*M.Tech CSE (Specialization in AI & ML) · Capstone 25MAI1006 · 2025–26*
 
 <br/>
 
