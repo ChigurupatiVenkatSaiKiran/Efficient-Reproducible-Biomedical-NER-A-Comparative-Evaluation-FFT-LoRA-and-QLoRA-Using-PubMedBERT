@@ -98,6 +98,8 @@ Results are averaged over 2 seeds before reporting.
 
 ## 🏗️ Pipeline Architecture
 
+### Interactive Flowchart
+
 ```mermaid
 flowchart TD
     A["📦 BC5CDR Dataset\n(HuggingFace Parquet branch)"] --> B
@@ -132,11 +134,13 @@ flowchart TD
     style J fill:#E1F5EE,stroke:#0F6E56,color:#085041
 ```
 
+### 🖼️ System Architecture Diagram
+
 <div align="center">
-<br/>
 <img src="figures/Architecture_FINAL.svg" alt="System Architecture — PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="620"/>
-<br/><sub><i>Fig. 1 — System architecture: Full FT · LoRA · QLoRA · data-size ablation · 2 seeds · entity-level evaluation</i></sub>
+<br/><sub><i>Fig. 1 — Full pipeline: BC5CDR dataset → Preprocessing → PubMedBERT → Full FT / LoRA / QLoRA → seqeval Evaluation → Results</i></sub>
 </div>
+
 
 ---
 
