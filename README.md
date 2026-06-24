@@ -520,7 +520,7 @@ Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoR
                A Comparative Evaluation of Full Fine-Tuning, LoRA, and QLoRA
                Using PubMedBERT},
   author    = {Chigurupati, Venkat Sai Kiran},
-  year      = {2025},
+  year      = {2026},
   note      = {M.Tech CSE (AI & ML) Capstone Project, Registration No. 25MAI1006},
   url       = {https://github.com/ChigurupatiVenkatSaiKiran/Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT}
 }
@@ -532,7 +532,7 @@ Or use the **"Cite this repository"** button on GitHub (powered by [`CITATION.cf
 
 ## 📄 License
 
-MIT © 2025 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatSaiKiran) — see [`LICENSE`](LICENSE) for details.
+MIT © 2026 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatSaiKiran) — see [`LICENSE`](LICENSE) for details.
 
 ---
 

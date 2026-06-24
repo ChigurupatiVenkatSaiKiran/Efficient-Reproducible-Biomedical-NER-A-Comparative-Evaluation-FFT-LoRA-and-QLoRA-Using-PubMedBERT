@@ -6,7 +6,7 @@ authors:
   - family-names: "Chigurupati"
     given-names: "Venkat Sai Kiran"
 version: 1.0.0
-date-released: 2025-06-01
+date-released: 2026-06-24
 license: MIT
 repository-code: "https://github.com/ChigurupatiVenkatSaiKiran/Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT"
 abstract: >
