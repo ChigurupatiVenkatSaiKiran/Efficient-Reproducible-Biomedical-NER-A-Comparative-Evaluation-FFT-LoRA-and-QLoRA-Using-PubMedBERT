@@ -1,0 +1,2 @@
+# Force GitHub Linguist to treat Jupyter Notebooks as Python code for repository statistics
+*.ipynb linguist-language=Python
