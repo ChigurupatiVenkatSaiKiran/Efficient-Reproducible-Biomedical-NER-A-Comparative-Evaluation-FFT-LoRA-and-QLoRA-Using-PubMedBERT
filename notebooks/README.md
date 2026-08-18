@@ -1,37 +1,55 @@
-# Notebook
+# Notebooks
 
-## `PubMedBERT_BC5CDR_Capstone_Project.ipynb`
+## `PubMedBERT_BC5CDR_MERGED_FINAL.ipynb` *(Latest & Recommended)*
 
-This is the **complete, self-contained pipeline** for the capstone project. It runs end-to-end and produces all results, figures, and tables in the repository.
+This is the **complete, self-contained, end-to-end pipeline** for the capstone project. It runs the full 24-run experimental grid (3 fine-tuning methods × 4 dataset sizes × 2 seeds), computes all held-out test evaluations, exports all publication-ready figures & Excel tables, launches an **interactive Gradio Web Demo with PDF analysis**, and automates model deployment to the **Hugging Face Hub**.
 
-## Cell-by-Cell Overview
+---
 
-| Section | Description |
-|:---|:---|
-| **Cell 1 — Install** | Installs all dependencies (`transformers`, `peft`, `bitsandbytes`, `seqeval`, etc.). Restart kernel once after first install. |
-| **Cell 2 — Imports** | Imports all libraries and sets global configuration constants. |
-| **Cell 3 — Google Drive Mount** | Auto-detects Colab and mounts Google Drive. All checkpoints and results are saved there to survive session disconnects. |
-| **Cell 4 — Dataset Loading** | Loads BC5CDR from HuggingFace via Parquet branch workaround. Inspects splits and label schema. |
-| **Cell 5 — Preprocessing** | Tokenizes sentences with PubMedBERT tokenizer. Aligns BIO labels to subword tokens (first-subword labeling). |
-| **Cell 6 — Model Factory** | Factory function that creates Full / LoRA / QLoRA model variants with consistent hyperparameters. Includes the `classifier`-exclusion fix for QLoRA. |
-| **Cell 7 — Training Grid** | **Main training loop.** Runs all 24 combinations (3 methods × 4 sizes × 2 seeds). Fully resumable — re-run this cell after any interruption to continue from the last checkpoint. |
-| **Cell 8 — Test Backfill** | Reloads all 24 trained models from disk (no retraining) and evaluates on the held-out test set. Run once after training is complete. |
-| **Cell 9 — Results Assembly** | Aggregates all 24 runs into a master DataFrame. Computes mean ± std across seeds. |
-| **Cell 10 — Figure 1** | Data-size curves (F1, Precision, Recall, Accuracy). |
-| **Cell 11 — Figure 2** | Bar chart — full-data final results. |
-| **Cell 12 — Figure 3** | Efficiency comparison (time, VRAM, params). |
-| **Cell 13 — Figure 4** | Training & validation loss curves. |
-| **Cell 14 — Figure 5** | Multi-metric radar chart. |
-| **Cell 15 — Figure 6** | Per-entity-type F1 (Chemical vs Disease). |
-| **Cell 16 — Tables** | Exports all results tables to XLS. |
+## 📋 Comprehensive Cell-by-Cell Architecture
 
-## Estimated Runtimes (RTX 3050, 4GB VRAM)
+| Cell # | Section / Component | Purpose & Implementation Details |
+|:---:|:---|:---|
+| **0** | **Title & Paper Metadata** | Markdown overview, author attribution, citation metadata, and research objectives. |
+| **1** | **Package Installation** | Installs `transformers`, `peft`, `bitsandbytes`, `seqeval`, `accelerate`, and dependencies. |
+| **2** | **Imports & Environment** | Loads PyTorch, Hugging Face, scientific computing stack; configures logging & device setup. |
+| **3** | **Global Configuration & Drive Mount** | Sets dataset hyperparameters, learning rates, seed lists `[42, 123]`, training size grid `[500, 1000, 3000, ALL]`, and auto-mounts Google Drive for persistent checkpointing. |
+| **4** | **BC5CDR Dataset Loading** | Ingests `tner/bc5cdr` via the Parquet branch workaround (`revision='refs/convert/parquet'`) to bypass deprecated loading scripts with explicit BIO label mapping (`['O', 'B-Chemical', 'B-Disease', 'I-Disease', 'I-Chemical']`). |
+| **5** | **Tokenizer & Token Alignment** | Initializes PubMedBERT WordPiece tokenizer, aligns BIO entity tags with subword tokens using first-subword labeling, and caps sequence length at 128 tokens. |
+| **6** | **Evaluation Metrics** | Implements entity-level span F1, Precision, Recall, and Accuracy scoring via `seqeval`. |
+| **7** | **Data Collator & Model Factories** | Sets up dynamic batch collation and creates modular factories for **Full Fine-Tuning**, **LoRA ($r=8$)**, and **QLoRA (4-bit NF4)** with `llm_int8_skip_modules=['classifier']` to prevent classifier initialization crashes. |
+| **8** | **Hardware & Resource Profiler** | Integrates CUDA memory tracking (`torch.cuda.max_memory_allocated`) and wall-clock training timer utilities. |
+| **9** | **Experiment Engine (`run_experiment`)** | Encapsulates single-run execution with per-epoch evaluation, checkpointing, early stopping (patience=2), and `DONE.json` crash-resilience sentinels. |
+| **10** | **Master 24-Run Training Loop** | Iterates over all 24 configurations (3 methods × 4 sizes × 2 seeds). Automatically resumes from the last completed run if interrupted. |
+| **11** | **Results Compilation & Best Models** | Aggregates all run metadata into a unified pandas DataFrame (`res_df`) and highlights top performers. |
+| **12** | **Held-Out Test Set Backfill** | Iteratively reloads the 24 checkpointed models and computes true held-out test set metrics (5,865 sentences) with incremental persistence. |
+| **13** | **Per-Entity Breakdown** | Evaluates fine-grained performance on **Chemical** (5,384 test entities) vs **Disease** (4,424 test entities) categories. Results cached to disk (`entity_reports_cache.pkl`). |
+| **14** | **Figure 1: Data Efficiency Curves** | Plots test F1 vs training set size ($N \in \{500, 1000, 3000, 5228\}$) demonstrating adapter superiority in low-data regimes. |
+| **15** | **Figure 2: Final Results Bar Chart** | Renders comparative bar plots for F1, Precision, Recall, and Accuracy at full dataset size ($N=5,228$). |
+| **16** | **Figure 3: Training Efficiency** | Visualizes training wall-clock time, peak GPU VRAM allocation, and trainable parameter counts. |
+| **17** | **Figure 4: Loss Curves (Self-Healing)** | Plots train/validation cross-entropy loss convergence across epochs with automated `trainer_state.json` reconstruction. |
+| **18** | **Table I: Master Results Export** | Formats and outputs master statistical summary tables (mean ± std across seeds). |
+| **19** | **Figure 5: Multi-Metric Radar Chart** | Generates 5-axis radar chart (F1, Precision, Recall, Parameter Efficiency, Speed Score). |
+| **20** | **Executive Summary** | Prints terminal summary of findings, memory reductions, and data-efficiency metrics. |
+| **21** | **Demo Dependencies** | Installs `gradio` and `PyMuPDF` (`fitz`) for web UI and PDF parsing. |
+| **22** | **Inference Engine & Span Formatter** | Builds cached inference pipeline supporting on-the-fly model switching, BIO subword span decoding, confidence scoring, and HTML entity formatting. |
+| **23** | **Interactive Gradio Web App** | Launches interactive web application with real-time entity highlighting, PDF document analysis, entity count statistics, and curated clinical examples. |
+| **24** | **Hugging Face Hub Auto-Publisher** | Selects best-performing seed models for Full FT, LoRA, and QLoRA, and uploads them to the Hugging Face Model Hub repository (`Venkatsaikiran/pubmedbert-bc5cdr-ner`). |
 
-| Method | Per run (full data) | All 24 runs |
-|:---|:---:|:---:|
-| Full FT | ~5–6 min | — |
-| LoRA | ~8–10 min | — |
-| QLoRA | ~12–14 min | — |
-| **Total** | — | **~4–5 hours** |
+---
 
-> The loop is fully resumable, so you can run it across multiple Colab sessions.
+## ⚡ Hardware & Execution Profile (RTX 3050 / Google Colab T4)
+
+| Method | Full Data Train Time | Peak VRAM | Trainable Parameters |
+|:---|:---:|:---:|:---:|
+| **Full Fine-Tuning** | ~9.26 min | 2.241 GB | 108.9M (100%) |
+| **LoRA ($r=8$)** | ~16.88 min | 0.805 GB | **5.3M (4.65%)** |
+| **QLoRA (4-bit NF4)** | ~21.43 min | **0.496 GB** | **5.3M (4.65%)** |
+| **Total Pipeline (24 runs)** | **~4–5 hours** | **< 2.3 GB** | Fully Crash-Resilient & Resumable |
+
+---
+
+## 🌐 Live Demonstration & Model Weights
+
+- **Hugging Face Spaces Demo**: [https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
+- **Hugging Face Model Repository**: [https://huggingface.co/Venkatsaikiran/pubmedbert-bc5cdr-ner](https://huggingface.co/Venkatsaikiran/pubmedbert-bc5cdr-ner)

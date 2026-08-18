@@ -5,6 +5,8 @@
 ### *Does parameter-efficient fine-tuning beat full fine-tuning on biomedical NER — and does it win even harder with less data?*
 
 [![CI](https://img.shields.io/github/actions/workflow/status/ChigurupatiVenkatSaiKiran/Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT/validate.yml?style=flat-square&label=CI&logo=githubactions)](https://github.com/ChigurupatiVenkatSaiKiran/Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT/actions)
+[![HuggingFace Spaces](https://img.shields.io/badge/🤗%20Spaces-Live%20Demo-FFD21E?style=flat-square&logo=huggingface&logoColor=black)](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
+[![HuggingFace Models](https://img.shields.io/badge/🤗%20Hub-Model%20Weights-blue?style=flat-square&logo=huggingface)](https://huggingface.co/Venkatsaikiran/pubmedbert-bc5cdr-ner)
 [![Python](https://img.shields.io/badge/Language-Python-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/Framework-PyTorch%202.x-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org)
 [![HuggingFace](https://img.shields.io/badge/Library-🤗%20Transformers-FFD21E?style=flat-square)](https://huggingface.co)
@@ -19,6 +21,20 @@
 | 👤 Author | 🎓 Programme | 📅 Academic Year | 🆔 Registration Number |
 |:---:|:---:|:---:|:---:|
 | **Chigurupati Venkat Sai Kiran** | M.Tech CSE (AI & ML) | 2025–27 | **25MAI1006** |
+
+<br/>
+
+<div align="center">
+
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-xl-dark.svg)](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
+
+### 🌟 [Try the Live Interactive Web Application on Hugging Face Spaces](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo) 🚀
+
+**Extract Chemical & Disease entities in real-time from clinical sentences or uploaded PDF documents — zero GPU setup required!**
+
+👉 **[Launch Live Demo: huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)** 👈
+
+</div>
 
 </div>
 
@@ -43,6 +59,7 @@
 
 ## 📋 Table of Contents
 
+- [🌟 Live Web Demo & App](#-live-web-demo--app)
 - [💡 Why This Matters](#-why-this-matters)
 - [🔬 What Was Built — The 24-Run Grid](#-what-was-built--the-24-run-grid)
 - [🏗️ Pipeline Architecture](#️-pipeline-architecture)
@@ -55,6 +72,12 @@
   - [3. Validation Set Results](#3-validation-set-results)
   - [4. Per-Entity Breakdown](#4-per-entity-breakdown)
   - [5. Training & Memory Efficiency](#5-training--memory-efficiency)
+  - [6. All-Metrics Bar Chart](#6-all-metrics-bar-chart-full-dataset)
+  - [7. Multi-Metric Radar](#7-multi-metric-radar-full-dataset)
+  - [8. Training Convergence](#8-training-convergence)
+  - [9. Full 24-Run Individual Results](#9-full-24-run-individual-results)
+- [🌐 Interactive Web Application (Gradio + Hugging Face)](#-interactive-web-application-gradio--hugging-face)
+- [☁️ Hugging Face Hub Model Deployment](#️-hugging-face-hub-model-deployment)
 - [🛡️ Engineering: Reliability Features](#️-engineering-reliability-features)
 - [🚀 Quick Start](#-quick-start)
 - [📁 Repository Structure](#-repository-structure)
@@ -120,7 +143,11 @@ flowchart TD
 
     I["📏 Evaluation\nValidation set → checkpoint selection only\nHeld-out Test set → final reported scores\nseqeval entity-level F1"] --> J
 
-    J["📊 Results\nData-efficiency curves · efficiency frontier\nPer-entity Chemical / Disease F1"]
+    J["📊 Results & Visualizations\nData-efficiency curves · radar chart\nPer-entity Chemical / Disease F1"] --> K
+
+    K["🌐 Interactive Web App\nGradio UI · PDF Analysis (PyMuPDF)\nDeployed on Hugging Face Spaces"] --> L
+
+    L["☁️ Hugging Face Hub\nBest model checkpoints published\nVenkatsaikiran/pubmedbert-bc5cdr-ner"]
 
     style A fill:#FAECE7,stroke:#993C1D,color:#711113
     style B fill:#E1F5EE,stroke:#0F6E56,color:#085041
@@ -132,6 +159,8 @@ flowchart TD
     style H fill:#FCE4EC,stroke:#C62828,color:#B71C1C
     style I fill:#EEEDFE,stroke:#534AB7,color:#3C3489
     style J fill:#E1F5EE,stroke:#0F6E56,color:#085041
+    style K fill:#FFF9C4,stroke:#FBC02D,color:#F57F17
+    style L fill:#E3F2FD,stroke:#1976D2,color:#0D47A1
 ```
 
 ### 🖼️ System Architecture Diagram
@@ -393,6 +422,81 @@ Loss curves represent clean convergence across both seeds (42 and 123) for all t
 
 ---
 
+## 🌐 Interactive Web Application & Live Demo (Gradio + Hugging Face Spaces)
+
+An end-to-end interactive web application is built into the notebook and hosted live on **Hugging Face Spaces**, allowing clinicians, researchers, and students to run biomedical entity recognition without any local GPU setup.
+
+<div align="center">
+
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-xl-dark.svg)](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
+
+### 🔗 **Live Demo URL:** [https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
+
+</div>
+
+### 🌟 Key Web App Capabilities
+
+| Feature | Description |
+|:---|:---|
+| 🎨 **Dynamic Color-Coded Entity Highlighting** | Custom HTML/CSS span renderer that highlights <span style="background-color:#cce5ff; border:1px solid #0066cc; padding:2px 6px; border-radius:4px; font-weight:bold; color:#004085;">Chemical</span> entities in blue and <span style="background-color:#ffd6d6; border:1px solid #cc0000; padding:2px 6px; border-radius:4px; font-weight:bold; color:#721c24;">Disease</span> entities in red, complete with hover tooltips displaying prediction confidence percentages. |
+| 🔄 **On-the-Fly Model Switching** | Switch dynamically between **LoRA ($r=8$)** (Recommended — high accuracy + fast inference), **QLoRA (4-bit NF4)** (Ultra-low memory), and **Full Fine-Tuning** directly via the UI dropdown. Models are cached after first load to avoid redundant memory allocations. |
+| 📄 **PDF Document Extraction & Analysis** | Integrated with `PyMuPDF` (`fitz`) to allow users to drag-and-drop clinical case studies, pathology reports, or PubMed research papers in PDF format. Automatically extracts text (up to 3,000 characters / 600 words) and annotates all discovered chemicals and diseases. |
+| 📊 **Quantitative Entity Statistics** | Displays a structured summary table showing total entity counts (e.g., *Total Chemicals: 3, Total Diseases: 2*) along with confidence-ranked entity lists. |
+| 💊 **Preloaded Clinical Benchmarks** | Includes four one-click clinical examples covering adverse drug reactions (ADRs), oncology chemotherapy (Cisplatin/Amifostine), autoimmune treatment (Methotrexate), and cardiovascular emergency (Naloxone/Clonidine). |
+
+### 💻 Launching the Gradio Web App Locally / on Colab
+
+You can run the web application directly inside your Jupyter / Google Colab session:
+
+```python
+# Launch the interactive Gradio demo (Cell 23 in the notebook)
+import gradio as gr
+
+# Predict and render interactive HTML
+demo.launch(share=True)  # Generates both local (localhost:7860) and public 72-hour Colab URLs
+```
+
+---
+
+## ☁️ Hugging Face Hub Model Deployment
+
+All fine-tuned adapter weights and full-model checkpoints evaluated in this study are permanently hosted on the **Hugging Face Model Hub**:
+
+- 📦 **Model Weights Repository:** [`Venkatsaikiran/pubmedbert-bc5cdr-ner`](https://huggingface.co/Venkatsaikiran/pubmedbert-bc5cdr-ner)
+- 🚀 **Interactive Demo Space:** [`Venkatsaikiran/pubmedbert-ner-demo`](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
+
+### 📥 Direct Inference via `transformers` & `peft`
+
+```python
+import torch
+from transformers import AutoTokenizer, AutoModelForTokenClassification
+from peft import PeftModel
+
+# 1. Load tokenizer and base PubMedBERT backbone
+tokenizer = AutoTokenizer.from_pretrained("microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract")
+base_model = AutoModelForTokenClassification.from_pretrained(
+    "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract",
+    num_labels=5
+)
+
+# 2. Attach the best-performing trained LoRA adapter from Hugging Face Hub
+model = PeftModel.from_pretrained(
+    base_model,
+    "Venkatsaikiran/pubmedbert-bc5cdr-ner",
+    subfolder="LoRA"
+)
+model.eval()
+
+# 3. Predict on unseen clinical text
+text = "Cisplatin chemotherapy was discontinued due to severe acute nephrotoxicity."
+inputs = tokenizer(text, return_tensors="pt")
+with torch.no_grad():
+    logits = model(**inputs).logits
+predictions = torch.argmax(logits, dim=2)[0]
+```
+
+---
+
 ## 🛡️ Engineering: Reliability Features
 
 This project was designed to survive real-world interruptions (Colab disconnects, laptop sleep, power cuts) — not just run once in a clean session.
@@ -419,13 +523,15 @@ This project was designed to survive real-world interruptions (Colab disconnects
 ### ▶ Google Colab — Recommended (Free T4 GPU)
 
 ```
-1. Open notebooks/PubMedBERT_BC5CDR_Capstone_Project.ipynb in Colab
+1. Open notebooks/PubMedBERT_BC5CDR_MERGED_FINAL.ipynb in Colab
 2. Runtime → Change runtime type → T4 GPU
 3. Run Cell 1 (installs deps) → Restart kernel
 4. Run Cell 3 → approve Google Drive mount
 5. Run training cell → resumes automatically if interrupted
 6. Run backfill cell → computes held-out test scores for all 24 runs
 7. Run figure cells → generates all plots
+8. Run Cell 23 → launches interactive Gradio Web App
+9. (Optional) Run Cell 24 → uploads best models to Hugging Face Hub
 ```
 
 ### 💻 Local Jupyter
@@ -434,7 +540,7 @@ This project was designed to survive real-world interruptions (Colab disconnects
 git clone https://github.com/ChigurupatiVenkatSaiKiran/Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT.git
 cd Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT
 pip install -r requirements.txt
-jupyter notebook notebooks/PubMedBERT_BC5CDR_Capstone_Project.ipynb
+jupyter notebook notebooks/PubMedBERT_BC5CDR_MERGED_FINAL.ipynb
 ```
 
 > **Minimum hardware:** Any CUDA GPU. QLoRA fits in **0.50 GB VRAM** — feasible on almost any modern discrete GPU. Developed on RTX 3050 (4 GB VRAM).
@@ -447,53 +553,55 @@ jupyter notebook notebooks/PubMedBERT_BC5CDR_Capstone_Project.ipynb
 ```
 Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT/
 │
-├── 📄 README.md                              ← This file
+├── 📄 README.md                              ← Master documentation, benchmark tables & demo links
 ├── ⚙️ .gitattributes                          ← Forces GitHub to classify repository as Python
-├── 📦 requirements.txt                       ← Pinned dependencies
-├── 📜 LICENSE                                ← MIT
-├── 📎 CITATION.cff                           ← Machine-readable citation
-├── 🤝 CONTRIBUTING.md                        ← Bug reports & extension ideas
+├── 📦 requirements.txt                       ← Pinned dependencies (including Gradio & PyMuPDF)
+├── 📜 LICENSE                                ← MIT (2026)
+├── 📎 CITATION.cff                           ← Machine-readable citation metadata
+├── 🤝 CONTRIBUTING.md                        ← Contribution guidelines
 ├── 🚫 .gitignore
 │
 ├── 🤖 .github/
 │   ├── ISSUE_TEMPLATE/bug_report.md          ← Structured issue form
-│   └── workflows/validate.yml               ← CI: validates notebook + all files
+│   └── workflows/validate.yml               ← CI: validates notebook + all repo files
 │
 ├── 📓 notebooks/
-│   ├── README.md                             ← Cell-by-cell guide + runtimes
-│   └── PubMedBERT_BC5CDR_Capstone_Project.ipynb  ← Full pipeline, end-to-end
+│   ├── README.md                             ← 25-cell comprehensive guide + runtimes
+│   └── PubMedBERT_BC5CDR_MERGED_FINAL.ipynb  ← Master end-to-end pipeline + Gradio app + HF deploy
 │
 ├── 🖼️ figures/
-│   ├── Architecture_FINAL.svg               ← System architecture
-│   ├── fig1_data_size_vs_metrics.png        ← KEY: data efficiency curves
-│   ├── fig2_final_results_bar.png           ← F1/P/R/Acc bars
-│   ├── fig3_efficiency.png                  ← Time · VRAM · params
-│   ├── fig4_loss_curves.png                 ← Train/val loss per method
-│   ├── fig5_radar.png                       ← Multi-metric radar
-│   └── fig_per_entity_f1.png               ← Chemical vs Disease F1
+│   ├── Architecture_FINAL.svg               ← Vector system architecture diagram
+│   ├── fig1_data_size_vs_metrics.png        ← KEY: data efficiency curves (500 to ALL)
+│   ├── fig2_final_results_bar.png           ← Comparative metrics bar chart
+│   ├── fig3_efficiency.png                  ← Training time · Peak VRAM · Parameter counts
+│   ├── fig4_loss_curves.png                 ← Training & validation loss convergence
+│   ├── fig5_radar.png                       ← Multi-metric radar chart
+│   └── fig_per_entity_f1.png               ← Chemical vs Disease F1 breakdown
 │
 └── 📊 results/
-    ├── table1_results.xls                   ← Headline results (all 24 runs)
-    ├── table2_efficiency.xls               ← Efficiency metrics
-    └── table_per_entity_breakdown.xls      ← Per-entity F1 breakdown
+    ├── table1_results.xls                   ← Master results table (all 24 runs)
+    ├── table2_efficiency.xls               ← Computational efficiency metrics
+    └── table_per_entity_breakdown.xls      ← Per-entity Chemical & Disease metrics
 ```
 
 ---
 
 ## 🧰 Tech Stack
 
-| Layer | Tools |
+| Layer | Tools & Libraries |
 |:---|:---|
-| **Model backbone** | `microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract` |
-| **Fine-tuning** | `transformers` · `peft` · `accelerate` |
-| **Quantization** | `bitsandbytes` (4-bit NF4) |
-| **Deep learning** | `PyTorch` |
-| **Data** | `datasets` (HuggingFace) |
-| **NER evaluation** | `seqeval` (entity-level span F1) |
-| **Analysis** | `pandas` · `numpy` · `scikit-learn` · `scipy` |
-| **Visualization** | `matplotlib` · `seaborn` |
-| **Environment** | Jupyter / Google Colab |
-| **Reproducibility** | Fixed seeds 42 & 123 via `transformers.set_seed()` |
+| **Model Backbone** | `microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract` (110M parameters) |
+| **Fine-Tuning & Adapters** | `transformers` (HuggingFace) · `peft` (LoRA) · `accelerate` |
+| **4-bit Quantization** | `bitsandbytes` (NF4 Quantization, double quantization) |
+| **Deep Learning Engine** | `PyTorch 2.x` (CUDA acceleration) |
+| **Biomedical Dataset** | `datasets` (HuggingFace Parquet stream of `tner/bc5cdr`) |
+| **NER Evaluation** | `seqeval` (Strict entity-level span F1, Precision, Recall) |
+| **Interactive Web UI** | `gradio>=4.0.0` (Interactive text/PDF chemical & disease highlighter) |
+| **Document Ingestion** | `PyMuPDF` (`fitz>=1.23.0` for PDF medical abstract/report parsing) |
+| **Model Serving & Cloud** | `huggingface_hub` · Hugging Face Spaces |
+| **Statistical Analysis** | `pandas` · `numpy` · `scikit-learn` · `scipy` |
+| **Visualization Suite** | `matplotlib` · `seaborn` |
+| **Reproducibility** | Fixed random seeds (`42`, `123`) via `transformers.set_seed()` |
 
 ---
 
