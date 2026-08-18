@@ -241,7 +241,7 @@ The new `classifier` head must be explicitly **excluded** from 4-bit quantizatio
 
 ## 📈 Comprehensive Experimental Results
 
-These results represent the exact values extracted directly from the outputs of the Jupyter Notebook `PubMedBERT BC5CDR Capstone Project.ipynb`.
+These results represent the exact values extracted directly from the outputs of the master Jupyter Notebook `PubMedBERT_BC5CDR_MERGED_FINAL.ipynb`.
 
 ### 1. Headline Test Set Results
 
