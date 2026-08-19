@@ -121,7 +121,16 @@ Results are averaged over 2 seeds before reporting.
 
 ## 🏗️ Pipeline Architecture
 
-### Interactive Flowchart
+### 🖼️ System Architecture Diagram
+
+<div align="center">
+<img src="figures/Architecture_TOP1_FINAL.svg" alt="System Architecture — PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="720"/>
+<br/><sub><i>Fig. 1 — Master system architecture: BC5CDR dataset → Tokenization & Alignment → PubMedBERT Backbone → Fine-Tuning Paradigms (Full FT / LoRA / QLoRA) → seqeval Evaluation → Web App Deployment</i></sub>
+</div>
+
+<br/>
+
+### 🔄 Interactive Pipeline Flowchart
 
 ```mermaid
 flowchart TD
@@ -162,13 +171,6 @@ flowchart TD
     style K fill:#FFF9C4,stroke:#FBC02D,color:#F57F17
     style L fill:#E3F2FD,stroke:#1976D2,color:#0D47A1
 ```
-
-### 🖼️ System Architecture Diagram
-
-<div align="center">
-<img src="figures/Architecture_TOP1_FINAL.svg" alt="System Architecture — PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="720"/>
-<br/><sub><i>Fig. 1 — Full pipeline: BC5CDR dataset → Preprocessing → PubMedBERT → Full FT / LoRA / QLoRA → seqeval Evaluation → Results</i></sub>
-</div>
 
 
 ---
@@ -424,15 +426,7 @@ Loss curves represent clean convergence across both seeds (42 and 123) for all t
 
 ## 🌐 Interactive Web Application & Live Demo (Gradio + Hugging Face Spaces)
 
-An end-to-end interactive web application is built into the notebook and hosted live on **Hugging Face Spaces**, allowing clinicians, researchers, and students to run biomedical entity recognition without any local GPU setup.
-
-<div align="center">
-
-[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-xl-dark.svg)](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
-
-### 🔗 **Live Demo URL:** [https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
-
-</div>
+An end-to-end interactive web application is built directly into the notebook and deployed to [**Hugging Face Spaces**](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo), allowing clinicians, researchers, and students to perform real-time biomedical entity extraction without any local environment or GPU configuration.
 
 ### 🌟 Key Web App Capabilities
 
