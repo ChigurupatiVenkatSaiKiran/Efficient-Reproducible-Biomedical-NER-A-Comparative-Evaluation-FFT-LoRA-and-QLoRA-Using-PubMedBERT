@@ -166,7 +166,7 @@ flowchart TD
 ### 🖼️ System Architecture Diagram
 
 <div align="center">
-<img src="figures/Architecture_FINAL.svg" alt="System Architecture — PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="620"/>
+<img src="figures/Architecture_TOP1_FINAL.svg" alt="System Architecture — PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="720"/>
 <br/><sub><i>Fig. 1 — Full pipeline: BC5CDR dataset → Preprocessing → PubMedBERT → Full FT / LoRA / QLoRA → seqeval Evaluation → Results</i></sub>
 </div>
 
@@ -570,7 +570,8 @@ Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoR
 │   └── PubMedBERT_BC5CDR_MERGED_FINAL.ipynb  ← Master end-to-end pipeline + Gradio app + HF deploy
 │
 ├── 🖼️ figures/
-│   ├── Architecture_FINAL.svg               ← Vector system architecture diagram
+│   ├── Architecture_TOP1_FINAL.svg          ← Master system architecture vector diagram
+│   ├── architecture_perfect_final.png       ← High-resolution pipeline architecture diagram
 │   ├── fig1_data_size_vs_metrics.png        ← KEY: data efficiency curves (500 to ALL)
 │   ├── fig2_final_results_bar.png           ← Comparative metrics bar chart
 │   ├── fig3_efficiency.png                  ← Training time · Peak VRAM · Parameter counts
