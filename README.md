@@ -2,7 +2,7 @@
 
 # 🧬 Efficient and Reproducible Biomedical Named Entity Recognition: A Comparative Evaluation of Full Fine-Tuning, LoRA, and QLoRA Using PubMedBERT
 
-### *Does parameter-efficient fine-tuning beat full fine-tuning on biomedical NER — and does it win even harder with less data?*
+### *Does parameter-efficient fine-tuning beat full fine-tuning on biomedical NER, and does it win even harder with less data?*
 
 [![CI](https://img.shields.io/github/actions/workflow/status/ChigurupatiVenkatSaiKiran/Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT/validate.yml?style=flat-square&label=CI&logo=githubactions)](https://github.com/ChigurupatiVenkatSaiKiran/Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT/actions)
 [![HuggingFace Spaces](https://img.shields.io/badge/🤗%20Spaces-Live%20Demo-FFD21E?style=flat-square&logo=huggingface&logoColor=black)](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)
@@ -32,7 +32,7 @@
 
 ### 🌟 [Try the Live Interactive Web Application on Hugging Face Spaces](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo) 🚀
 
-**Extract Chemical & Disease entities in real-time from clinical sentences or uploaded PDF documents — zero GPU setup required!**
+**Extract Chemical & Disease entities in real-time from clinical sentences or uploaded PDF documents (zero GPU setup required).**
 
 👉 **[Launch Live Demo: huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)** 👈
 
@@ -49,7 +49,7 @@
 
 ---
 
-## ⚡ TL;DR — Three Numbers That Tell the Story
+## ⚡ Key Benchmark Findings
 
 <div align="center">
 
@@ -62,17 +62,18 @@
 
 </div>
 
-> **Bottom line:** QLoRA matches Full fine-tuning accuracy using **~4.88% of the parameters** (5.312M trainable / 108.895M total) and **4.5× less GPU memory**. LoRA beats Full FT by **9.2 F1 points when you only have 500 training examples** — the scenario that matters most for small clinics and rare-disease labs.
+> **Key Takeaway:** QLoRA matches Full fine-tuning accuracy using **~4.88% of the parameters** (5.312M trainable / 108.895M total) and **4.5× less GPU memory**. LoRA beats Full FT by **9.2 F1 points when using only 500 training examples**, which is the scenario that matters most for small clinics and rare-disease labs.
 
 ---
 
 ## 📋 Table of Contents
 
+- [⚡ Key Benchmark Findings](#-key-benchmark-findings)
 - [🌟 Live Web Demo & App](#-live-web-demo--app)
 - [💡 Why This Matters](#-why-this-matters)
-- [🔬 What Was Built — The 24-Run Grid](#-what-was-built--the-24-run-grid)
+- [🔬 What Was Built: The 24-Run Grid](#-what-was-built-the-24-run-grid)
 - [🏗️ Pipeline Architecture](#️-pipeline-architecture)
-- [📊 Dataset — BC5CDR](#-dataset--bc5cdr)
+- [📊 Dataset: BC5CDR](#-dataset-bc5cdr)
 - [🐍 Core Language & GitHub Classification](#-core-language--github-classification)
 - [⚙️ The Three Methods](#️-the-three-methods)
 - [📈 Comprehensive Experimental Results](#-comprehensive-experimental-results)
@@ -99,19 +100,19 @@
 
 ## 💡 Why This Matters
 
-Full fine-tuning a 110M-parameter model like PubMedBERT on **consumer hardware (4 GB VRAM)** is barely feasible — and that's exactly the hardware available in small hospitals, university labs, and rare-disease research groups.
+Full fine-tuning a 110M-parameter model like PubMedBERT on **consumer hardware (4 GB VRAM)** is barely feasible, yet that is exactly the hardware available in small hospitals, university labs, and rare-disease research groups.
 
-**Parameter-efficient fine-tuning (PEFT)** — specifically **LoRA** and **QLoRA** — promises to close this gap by freezing the backbone and training only a tiny set of adapter weights.
+**Parameter-efficient fine-tuning (PEFT)**, specifically **LoRA** and **QLoRA**, promises to close this gap by freezing the backbone and training only a tiny set of adapter weights.
 
 This project asks **two precise, answerable questions**:
 
-> **Q1 — Accuracy/Efficiency tradeoff:** Do LoRA/QLoRA reach Full FT accuracy while using dramatically fewer parameters and less GPU memory?
+> **Q1 (Accuracy vs. Efficiency):** Do LoRA/QLoRA reach Full FT accuracy while using dramatically fewer parameters and less GPU memory?
 >
-> **Q2 — Data efficiency (the unique contribution):** Which method is most useful when you only have 500 or 1,000 labeled sentences — the realistic scenario for any lab that can't afford to annotate thousands of documents?
+> **Q2 (Data Efficiency):** Which method is most useful when you only have 500 or 1,000 labeled sentences, representing the realistic scenario for labs with limited annotation budgets?
 
 ---
 
-## 🔬 What Was Built — The 24-Run Grid
+## 🔬 What Was Built: The 24-Run Grid
 
 This is **not** a 3-method, 1-run demo. The core contribution is a fully reproducible **24-run controlled experiment**:
 
@@ -133,8 +134,8 @@ Results are averaged over 2 seeds before reporting.
 ### 🖼️ System Architecture Diagram
 
 <div align="center">
-<img src="figures/Architecture_NER_DrawIO (1).svg" alt="System Architecture — PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="100%"/>
-<br/><sub><i>Fig. 1 — Master system architecture: BC5CDR dataset → Tokenization & Alignment → PubMedBERT Backbone → Fine-Tuning Paradigms (Full FT / LoRA / QLoRA) → seqeval Evaluation → Web App Deployment</i></sub>
+<img src="figures/Architecture_NER_DrawIO (1).svg" alt="System Architecture: PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="100%"/>
+<br/><sub><i>Fig. 1: Master system architecture: BC5CDR dataset → Tokenization & Alignment → PubMedBERT Backbone → Fine-Tuning Paradigms (Full FT / LoRA / QLoRA) → seqeval Evaluation → Web App Deployment</i></sub>
 </div>
 
 <br/>
@@ -184,18 +185,18 @@ flowchart TD
 
 ---
 
-## 📊 Dataset — BC5CDR
+## 📊 Dataset: BC5CDR
 
-**[BioCreative V Chemical-Disease Relation (BC5CDR)](https://huggingface.co/datasets/tner/bc5cdr)** — the standard benchmark for biomedical NER.
+**[BioCreative V Chemical-Disease Relation (BC5CDR)](https://huggingface.co/datasets/tner/bc5cdr)** is the standard benchmark for biomedical NER.
 
 | Split | Sentences | Role in this project |
 |:---|:---:|:---|
 | **Train** | 5,228 | Used for training (sub-sampled to 500 / 1K / 3K / ALL) |
 | **Validation** | 5,330 | Early stopping & checkpoint selection |
-| **Test** | 5,865 | **Final reported scores** — held-out test evaluation |
+| **Test** | 5,865 | **Final reported scores** (held-out test evaluation) |
 | **Total** | **16,423** | Complete BC5CDR corpus across all 3 official splits |
 
-**Entity types:** Chemical · Disease — **5 BIO labels:** `O` · `B-Chemical` · `I-Chemical` · `B-Disease` · `I-Disease`
+**Entity types:** Chemical · Disease | **5 BIO labels:** `O` · `B-Chemical` · `I-Chemical` · `B-Disease` · `I-Disease`
 
 **Example sentence:**
 ```
@@ -206,7 +207,7 @@ B-Chem    O         O    O                 O       O   B-Chem     O
 <details>
 <summary><b>📌 Dataset loading engineering note</b></summary>
 
-`tner/bc5cdr` uses a now-deprecated Python loading-script format. The fix: load via the auto-converted Parquet branch (`revision='refs/convert/parquet'`), which bypasses the broken script. Because this strips `ClassLabel` metadata (label IDs become plain integers with no names), BIO label names are supplied explicitly as a fallback: `['O','B-Chemical','B-Disease','I-Disease','I-Chemical']` — confirmed against the dataset's own example data.
+`tner/bc5cdr` uses a now-deprecated Python loading-script format. The fix: load via the auto-converted Parquet branch (`revision='refs/convert/parquet'`), which bypasses the broken script. Because this strips `ClassLabel` metadata (label IDs become plain integers with no names), BIO label names are supplied explicitly as a fallback: `['O','B-Chemical','B-Disease','I-Disease','I-Chemical']`, confirmed against the dataset's own example data.
 
 </details>
 
@@ -244,7 +245,7 @@ This overrides GitHub's Linguist statistics engine, ensuring that all notebook c
 > *Implementation & Fallback Note:* The notebook implementation includes an automatic fallback that trains the last two encoder layers and classifier head if 4-bit loading fails. All 8 QLoRA experimental runs reported in this benchmark ran with genuine 4-bit NF4 + LoRA (`[QLoRA] ✅ Real 4-bit NF4 + LoRA loaded`), verifying the 5.312M trainable parameter count across all QLoRA runs.
 
 <details>
-<summary><b>🐛 Critical implementation bug — encountered & fixed</b></summary>
+<summary><b>🐛 Critical implementation bug: encountered & fixed</b></summary>
 
 The new `classifier` head must be explicitly **excluded** from 4-bit quantization using `llm_int8_skip_modules=['classifier']` in `BitsAndBytesConfig`. Without this, the freshly-initialized (never-quantized) classifier layer causes an `AssertionError: module.weight.shape[1] == 1` crash on its very first forward pass inside `bitsandbytes`. This was a real bug encountered during development and fixed with the explicit exclusion.
 
@@ -390,7 +391,7 @@ This section outlines physical resource usage. Peak memory was tracked via `torc
 
 ### 6. All-Metrics Bar Chart (Full Dataset)
 
-F1, Precision, Recall, and Accuracy for all three methods at the full training set size — mean ± std over 2 seeds.
+F1, Precision, Recall, and Accuracy for all three methods at the full training set size (mean ± std over 2 seeds).
 
 <div align="center">
 <img src="figures/fig2_final_results_bar.png" alt="Bar chart: F1, Precision, Recall, Accuracy for all 3 methods" width="720"/>
@@ -406,7 +407,7 @@ F1, Precision, Recall, and Accuracy for all three methods at the full training s
 
 ### 7. Multi-Metric Radar (Full Dataset)
 
-Radar chart across F1, Precision, Recall, Parameter Efficiency and Speed Score — shows LoRA and QLoRA dominate the efficiency axes while remaining neck-and-neck on accuracy.
+Radar chart across F1, Precision, Recall, Parameter Efficiency, and Speed Score, showing that LoRA and QLoRA lead on efficiency while matching Full Fine-Tuning on accuracy.
 
 <div align="center">
 <img src="figures/fig5_radar.png" alt="Multi-metric radar: F1, Precision, Recall, Speed Score, Param Efficiency" width="520"/>
@@ -427,7 +428,7 @@ Loss curves represent clean convergence across both seeds (42 and 123) for all t
 ### 9. Full 24-Run Individual Results
 
 <details>
-<summary><b>📋 Click to expand — all 24 individual runs (both seeds, all data sizes)</b></summary>
+<summary><b>📋 Click to expand: all 24 individual runs (both seeds, all data sizes)</b></summary>
 
 | Method | Seed | Size | Val F1 | Val Prec | Val Rec | Val Acc | Test F1 | Test Prec | Test Rec | Test Acc | Time (min) | Peak VRAM |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -471,7 +472,7 @@ An end-to-end interactive web application is built directly into the notebook an
 | Feature | Description |
 |:---|:---|
 | 🎨 **Dynamic Color-Coded Entity Highlighting** | Custom HTML/CSS span renderer that highlights <span style="background-color:#cce5ff; border:1px solid #0066cc; padding:2px 6px; border-radius:4px; font-weight:bold; color:#004085;">Chemical</span> entities in blue and <span style="background-color:#ffd6d6; border:1px solid #cc0000; padding:2px 6px; border-radius:4px; font-weight:bold; color:#721c24;">Disease</span> entities in red, complete with hover tooltips displaying prediction confidence percentages. |
-| 🔄 **On-the-Fly Model Switching** | Switch dynamically between **LoRA ($r=32$)** (Recommended — high accuracy + fast inference), **QLoRA (4-bit NF4)** (Ultra-low memory), and **Full Fine-Tuning** directly via the UI dropdown. Models are cached after first load to avoid redundant memory allocations. |
+| 🔄 **On-the-Fly Model Switching** | Switch dynamically between **LoRA ($r=32$)** (Recommended: high accuracy + fast inference), **QLoRA (4-bit NF4)** (Ultra-low memory), and **Full Fine-Tuning** directly via the UI dropdown. Models are cached after first load to avoid redundant memory allocations. |
 | 📄 **PDF Document Extraction & Analysis** | Integrated with `PyMuPDF` (`fitz`) to allow users to drag-and-drop clinical case studies, pathology reports, or PubMed research papers in PDF format. Automatically extracts text (up to the first 3,000 characters, ~500–600 words) and annotates all discovered chemicals and diseases. |
 | 📊 **Quantitative Entity Statistics** | Displays a structured summary table showing total entity counts (e.g., *Total Chemicals: 3, Total Diseases: 2*) along with confidence-ranked entity lists. |
 | 💊 **Preloaded Clinical Benchmarks** | Includes four one-click clinical examples covering adverse drug reactions (ADRs), oncology chemotherapy (Cisplatin/Amifostine), autoimmune treatment (Methotrexate), and cardiovascular emergency (Naloxone/Clonidine). |
@@ -531,20 +532,20 @@ predictions = torch.argmax(logits, dim=2)[0]
 
 ## 🛡️ Engineering: Reliability Features
 
-This project was designed to survive real-world interruptions (Colab disconnects, laptop sleep, power cuts) — not just run once in a clean session.
+This project was designed to survive real-world interruptions (Colab disconnects, laptop sleep, power cuts) rather than only running in an uninterrupted session.
 
 <details open>
 <summary><b>Click to expand all 7 reliability features</b></summary>
 
 | # | Feature | What it does |
 |:---:|:---|:---|
-| 1 | **Per-epoch checkpointing + auto-resume** | Saves a checkpoint after every epoch. Re-running the training cell resumes from the last completed checkpoint — no GPU time wasted. |
+| 1 | **Per-epoch checkpointing + auto-resume** | Saves a checkpoint after every epoch. Re-running the training cell resumes from the last completed checkpoint without wasted GPU time. |
 | 2 | **`DONE.json` sentinel + `all_results.pkl`** | A run is only marked done after fully finishing. The master results file re-saves after *every single run*, so a crash never loses more than one in-progress run. |
 | 3 | **Google Drive auto-mount** | On Colab, auto-detects and mounts Drive so checkpoints survive session disconnects. One-time migration copies any local results to Drive. |
-| 4 | **`log_history` self-healing** | Loss curves silently empty for completed runs? Fixed by reconstructing from `trainer_state.json` in each checkpoint — repairs old results without retraining. |
+| 4 | **`log_history` self-healing** | Loss curves silently empty for completed runs? Fixed by reconstructing from `trainer_state.json` in each checkpoint, repairing old results without retraining. |
 | 5 | **Held-out test-set backfill** | Reloads all 24 trained models from checkpoints (no retraining) and evaluates on the test set. Progress saved incrementally so a mid-backfill crash loses nothing. |
 | 6 | **Dataset Parquet workaround** | `tner/bc5cdr` uses a deprecated loading script. Fix: load from `revision='refs/convert/parquet'` + explicit label name fallback. |
-| 7 | **`Trainer` API compatibility** | Tries `processing_class=` (new API) then falls back to `tokenizer=` (old API) — works across all recent `transformers` versions. |
+| 7 | **`Trainer` API compatibility** | Tries `processing_class=` (new API) then falls back to `tokenizer=` (old API), working across all recent `transformers` versions. |
 
 </details>
 
@@ -552,7 +553,7 @@ This project was designed to survive real-world interruptions (Colab disconnects
 
 ## 🚀 Quick Start
 
-### ▶ Google Colab — Recommended (Free T4 GPU)
+### ▶ Google Colab (Recommended: Free T4 GPU)
 
 ```
 1. Open notebooks/PubMedBERT_BC5CDR_MERGED_FINAL.ipynb in Colab
@@ -575,7 +576,7 @@ pip install -r requirements.txt
 jupyter notebook notebooks/PubMedBERT_BC5CDR_MERGED_FINAL.ipynb
 ```
 
-> **Minimum hardware:** Any CUDA GPU. QLoRA fits in **0.50 GB VRAM** — feasible on almost any modern discrete GPU. Developed on RTX 3050 (4 GB VRAM).
+> **Minimum hardware:** Any CUDA GPU. QLoRA fits in **0.50 GB VRAM**, making it feasible on almost any modern discrete GPU. Developed on RTX 3050 (4 GB VRAM).
 > **Estimated total runtime (24 runs, RTX 3050):** ~4–5 hours. Fully resumable across multiple sessions.
 
 ---
@@ -645,7 +646,7 @@ Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoR
 
 | Aspect | Choice | Rationale |
 |:---|:---|:---|
-| **Primary metric** | Entity-level F1 via `seqeval` | Scores whole entity spans (strict boundary matching) — standard for published NER papers |
+| **Primary metric** | Entity-level F1 via `seqeval` | Scores whole entity spans (strict boundary matching), standard for published NER papers |
 | **Secondary metrics** | Entity Precision · Entity Recall · Token Accuracy | `seqeval` span-level Precision & Recall; token-level BIO tag classification accuracy |
 | **Validation set** | Early stopping & checkpoint selection | Used during training to monitor convergence; not used for final test reporting |
 | **Test set** | Evaluated after training (with backfill procedure available) | Held-out test set evaluation for final benchmarking. Validation F1 is recommended for checkpoint and deployment seed selection to preserve strict generalization |
@@ -686,7 +687,7 @@ Or use the **"Cite this repository"** button on GitHub (powered by [`CITATION.cf
 
 ## 📄 License
 
-MIT © 2026 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatSaiKiran) — see [`LICENSE`](LICENSE) for details.
+MIT © 2026 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatSaiKiran) (see [`LICENSE`](LICENSE) for details).
 
 ---
 
@@ -700,13 +701,13 @@ MIT © 2026 [Chigurupati Venkat Sai Kiran](https://github.com/ChigurupatiVenkatS
 
 <br/>
 
-> *"The best model isn't the biggest one — it's the one that fits your constraints and still answers your question."*
+> *"The best model isn't the biggest one; it's the one that fits your constraints and still answers your question."*
 
 <br/>
 
 ---
 
-<sub>📌 All experimental results in this README are exact values extracted directly from the Jupyter Notebook outputs — not estimates, not rounded approximations. The full 24-run results cache is reproducible by running the notebook end-to-end.</sub>
+<sub>📌 All experimental results in this README are exact values extracted directly from the Jupyter Notebook outputs (not estimates or rounded approximations). The full 24-run results cache is reproducible by running the notebook end-to-end.</sub>
 
 <br/>
 

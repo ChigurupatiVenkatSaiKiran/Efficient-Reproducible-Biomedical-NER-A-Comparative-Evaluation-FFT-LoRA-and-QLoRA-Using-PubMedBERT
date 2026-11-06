@@ -6,9 +6,9 @@ This directory contains the quantitative output tables from the 24-run experimen
 
 | File | Description |
 |:---|:---|
-| `table1_results.xls` | Headline comparison — Test F1, Precision, Recall, Accuracy for all 3 methods at all 4 data sizes, averaged over 2 seeds |
-| `table2_efficiency.xls` | Efficiency metrics — training time, peak VRAM, trainable parameter count, total parameters, throughput (samples/sec) |
-| `table_per_entity_breakdown.xls` | Per-entity-type F1 — Chemical vs Disease, all 3 methods, full training data |
+| `table1_results.xls` | Headline comparison: Test F1, Precision, Recall, Accuracy for all 3 methods at all 4 data sizes, averaged over 2 seeds |
+| `table2_efficiency.xls` | Efficiency metrics: training time, peak VRAM, trainable parameter count, total parameters, throughput (samples/sec) |
+| `table_per_entity_breakdown.xls` | Per-entity-type F1: Chemical vs Disease, all 3 methods, full training data |
 
 ## How Results Were Generated
 
