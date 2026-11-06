@@ -15,7 +15,7 @@
 [![seqeval](https://img.shields.io/badge/Evaluation-seqeval-orange?style=flat-square)](https://github.com/chakki-works/seqeval)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Cite](https://img.shields.io/badge/Cite-CITATION.cff-informational?style=flat-square)](CITATION.cff)
-[![IEEE Access Paper](https://img.shields.io/badge/Paper-IEEE%20Access%20(PDF)-red?style=flat-square&logo=adobeacrobatreader)](IEEE%20ACCESS%20Research%20Paper/Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf)
+[![IEEE Access Paper](https://img.shields.io/badge/Paper-IEEE%20Access%20Journal%20(PDF)-red?style=flat-square&logo=adobeacrobatreader)](IEEE%20ACCESS%20Journal%20Research%20Paper/Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf)
 [![Project PPT](https://img.shields.io/badge/Presentation-Project%20Review%20(PPTX)-orange?style=flat-square&logo=microsoftpowerpoint)](PROJECT%20WORK%20FINAL%20REVIEW%20PPT%20TEMPLATE.pptx)
 
 <br/>
@@ -40,7 +40,7 @@
 
 ### 📚 Project Artifacts & Resources
 
-| 📄 [IEEE ACCESS Research Paper (PDF)](IEEE%20ACCESS%20Research%20Paper/Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf) | 📊 [Project Work Final Review PPT](PROJECT%20WORK%20FINAL%20REVIEW%20PPT%20TEMPLATE.pptx) | 🏗️ [System Architecture Diagram](figures/Architecture_NER_DrawIO%20(1).svg) |
+| 📄 [IEEE ACCESS Journal Research Paper (PDF)](IEEE%20ACCESS%20Journal%20Research%20Paper/Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf) | 📊 [Project Work Final Review PPT](PROJECT%20WORK%20FINAL%20REVIEW%20PPT%20TEMPLATE.pptx) | 🏗️ [System Architecture Diagram](figures/Architecture_NER_DrawIO%20(1).svg) |
 |:---:|:---:|:---:|
 
 </div>
@@ -595,8 +595,8 @@ Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoR
 ├── 🤝 CONTRIBUTING.md                        ← Contribution guidelines
 ├── 🚫 .gitignore
 │
-├── 📑 IEEE ACCESS Research Paper/
-│   └── Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf ← IEEE Access research paper manuscript
+├── 📑 IEEE ACCESS Journal Research Paper/
+│   └── Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf ← IEEE Access journal research paper manuscript
 │
 ├── 🤖 .github/
 │   ├── ISSUE_TEMPLATE/bug_report.md          ← Structured issue form
