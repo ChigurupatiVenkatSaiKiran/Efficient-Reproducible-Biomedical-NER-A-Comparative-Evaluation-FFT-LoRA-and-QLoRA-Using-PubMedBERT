@@ -15,6 +15,8 @@
 [![seqeval](https://img.shields.io/badge/Evaluation-seqeval-orange?style=flat-square)](https://github.com/chakki-works/seqeval)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Cite](https://img.shields.io/badge/Cite-CITATION.cff-informational?style=flat-square)](CITATION.cff)
+[![IEEE Access Paper](https://img.shields.io/badge/Paper-IEEE%20Access%20(PDF)-red?style=flat-square&logo=adobeacrobatreader)](IEEE%20ACCESS%20Research%20Paper/Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf)
+[![Project PPT](https://img.shields.io/badge/Presentation-Project%20Review%20(PPTX)-orange?style=flat-square&logo=microsoftpowerpoint)](PROJECT%20WORK%20FINAL%20REVIEW%20PPT%20TEMPLATE.pptx)
 
 <br/>
 
@@ -33,6 +35,13 @@
 **Extract Chemical & Disease entities in real-time from clinical sentences or uploaded PDF documents — zero GPU setup required!**
 
 👉 **[Launch Live Demo: huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo](https://huggingface.co/spaces/Venkatsaikiran/pubmedbert-ner-demo)** 👈
+
+<br/>
+
+### 📚 Project Artifacts & Resources
+
+| 📄 [IEEE ACCESS Research Paper (PDF)](IEEE%20ACCESS%20Research%20Paper/Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf) | 📊 [Project Work Final Review PPT](PROJECT%20WORK%20FINAL%20REVIEW%20PPT%20TEMPLATE.pptx) | 🏗️ [System Architecture Diagram](figures/Architecture_NER_DrawIO%20(1).svg) |
+|:---:|:---:|:---:|
 
 </div>
 
@@ -124,7 +133,7 @@ Results are averaged over 2 seeds before reporting.
 ### 🖼️ System Architecture Diagram
 
 <div align="center">
-<img src="figures/Architecture_TOP1_FINAL.svg" alt="System Architecture — PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="720"/>
+<img src="figures/Architecture_NER_DrawIO (1).svg" alt="System Architecture — PubMedBERT fine-tuning pipeline for Biomedical NER on BC5CDR" width="100%"/>
 <br/><sub><i>Fig. 1 — Master system architecture: BC5CDR dataset → Tokenization & Alignment → PubMedBERT Backbone → Fine-Tuning Paradigms (Full FT / LoRA / QLoRA) → seqeval Evaluation → Web App Deployment</i></sub>
 </div>
 
@@ -548,12 +557,16 @@ jupyter notebook notebooks/PubMedBERT_BC5CDR_MERGED_FINAL.ipynb
 Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoRA-Using-PubMedBERT/
 │
 ├── 📄 README.md                              ← Master documentation, benchmark tables & demo links
+├── 📊 PROJECT WORK FINAL REVIEW PPT TEMPLATE.pptx ← Project final review presentation slides
 ├── ⚙️ .gitattributes                          ← Forces GitHub to classify repository as Python
 ├── 📦 requirements.txt                       ← Pinned dependencies (including Gradio & PyMuPDF)
 ├── 📜 LICENSE                                ← MIT (2026)
 ├── 📎 CITATION.cff                           ← Machine-readable citation metadata
 ├── 🤝 CONTRIBUTING.md                        ← Contribution guidelines
 ├── 🚫 .gitignore
+│
+├── 📑 IEEE ACCESS Research Paper/
+│   └── Efficient_Reproducible_Biomedical_NER_PubMedBERT_FullFT_LoRA_QLoRA.pdf ← IEEE Access research paper manuscript
 │
 ├── 🤖 .github/
 │   ├── ISSUE_TEMPLATE/bug_report.md          ← Structured issue form
@@ -564,8 +577,7 @@ Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoR
 │   └── PubMedBERT_BC5CDR_MERGED_FINAL.ipynb  ← Master end-to-end pipeline + Gradio app + HF deploy
 │
 ├── 🖼️ figures/
-│   ├── Architecture_TOP1_FINAL.svg          ← Master system architecture vector diagram
-│   ├── architecture_perfect_final.png       ← High-resolution pipeline architecture diagram
+│   ├── Architecture_NER_DrawIO (1).svg       ← Master system architecture vector diagram (DrawIO)
 │   ├── fig1_data_size_vs_metrics.png        ← KEY: data efficiency curves (500 to ALL)
 │   ├── fig2_final_results_bar.png           ← Comparative metrics bar chart
 │   ├── fig3_efficiency.png                  ← Training time · Peak VRAM · Parameter counts

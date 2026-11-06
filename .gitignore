@@ -2,10 +2,10 @@
 # .gitignore — PubMedBERT BC5CDR PEFT Comparison
 # ==============================================================
 
-# ── Presentation slides (kept locally, not in repo) ──────────
-*.pptx
-*.ppt
-*.key
+# ── Presentation slides (included in repo) ───────────────────
+# *.pptx
+# *.ppt
+# *.key
 
 # ── Loose root-level duplicates (canonical copies in subfolders)
 /Architecture_FINAL.svg
