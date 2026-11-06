@@ -57,12 +57,12 @@
 |:---|:---:|:---:|:---:|
 | **Test F1 (Full Data)** | 0.8913 | 0.8955 | **0.8964 🏆** |
 | **Peak VRAM** | 2.241 GB | 0.805 GB | **0.496 GB 🏆** |
-| **Trainable Params** | 108.9 M | **5.3 M** | **5.3 M** |
+| **Trainable Params** | 108.895 M | **5.312 M** | **5.312 M** |
 | **Test F1 at 500 samples** | 0.7098 | **0.8020 🏆** | 0.7853 |
 
 </div>
 
-> **Bottom line:** QLoRA matches Full fine-tuning accuracy using **4.65% of the parameters** and **4.5× less GPU memory**. LoRA beats Full FT by **9.2 F1 points when you only have 500 training examples** — the scenario that matters most for small clinics and rare-disease labs.
+> **Bottom line:** QLoRA matches Full fine-tuning accuracy using **~4.88% of the parameters** (5.312M trainable / 108.895M total) and **4.5× less GPU memory**. LoRA beats Full FT by **9.2 F1 points when you only have 500 training examples** — the scenario that matters most for small clinics and rare-disease labs.
 
 ---
 
@@ -118,7 +118,7 @@ This is **not** a 3-method, 1-run demo. The core contribution is a fully reprodu
 ```
 3 methods  ×  4 data sizes  ×  2 random seeds  =  24 training runs
   │              │                │
-  │              │                └── seeds 42 & 123 → removes lucky-init noise
+  │              │                └── seeds 42 & 123 → assesses run-to-run variability
   │              └── 500 · 1,000 · 3,000 · ALL (5,228) → data-efficiency curve
   └── Full Fine-Tuning · LoRA · QLoRA
 ```
@@ -152,8 +152,8 @@ flowchart TD
     D["🧠 PubMedBERT Backbone\nmicrosoft/BiomedNLP-PubMedBERT-base-uncased-abstract\n110M parameters"] --> E & F & G
 
     E["🔵 Full Fine-Tuning\nAll 108.9M params updated\nLR 2e-5 · cosine"]
-    F["🟠 LoRA  r=8\n5.3M adapter params trained\nBackbone frozen · LR 3e-4"]
-    G["🟢 QLoRA  r=8\n5.3M adapters · backbone 4-bit NF4\nLowest VRAM · LR 3e-4"]
+    F["🟠 LoRA  r=32\n5.312M trainable params (~4.88%)\nBackbone frozen · LR 3e-4"]
+    G["🟢 QLoRA  r=32\n5.312M trainable · backbone 4-bit NF4\nLowest VRAM · LR 3e-4"]
 
     E & F & G --> H
 
@@ -191,8 +191,9 @@ flowchart TD
 | Split | Sentences | Role in this project |
 |:---|:---:|:---|
 | **Train** | 5,228 | Used for training (sub-sampled to 500 / 1K / 3K / ALL) |
-| **Validation** | 5,330 | Early stopping & checkpoint selection **only** |
-| **Test** | 5,865 | **Final reported scores** — evaluated once, held-out |
+| **Validation** | 5,330 | Early stopping & checkpoint selection |
+| **Test** | 5,865 | **Final reported scores** — held-out test evaluation |
+| **Total** | **16,423** | Complete BC5CDR corpus across all 3 official splits |
 
 **Entity types:** Chemical · Disease — **5 BIO labels:** `O` · `B-Chemical` · `I-Chemical` · `B-Disease` · `I-Disease`
 
@@ -228,18 +229,19 @@ This overrides GitHub's Linguist statistics engine, ensuring that all notebook c
 
 ## ⚙️ The Three Methods
 
-| Feature | Full Fine-Tuning | LoRA (r=8) | QLoRA (r=8) |
+| Feature | Full Fine-Tuning | LoRA (r=32) | QLoRA (r=32) |
 |:---|:---:|:---:|:---:|
-| **Trainable params** | 108.9M | 5.3M | 5.3M |
-| **% of total** | 100% | 4.65% | 4.65% |
+| **Trainable params** | 108.895M | 5.312M | 5.312M |
+| **% of total** | 100% | ~4.88% | ~4.88% |
 | **Backbone during train** | Updated | Frozen (fp32) | Frozen (4-bit NF4) |
 | **Peak VRAM** | 2.241 GB | 0.805 GB | **0.496 GB** |
 | **Avg Train Time (All Runs)** | 5.30 min | 8.92 min | 13.23 min |
 | **Full-Dataset Train Time** | 9.26 min | 16.88 min | 21.43 min |
 
-**LoRA:** injects small low-rank adapter matrices (rank r=8) into the attention layers. Only the adapters and the new NER classifier head are updated. The backbone is frozen in full precision.
+**LoRA:** Injects low-rank adapter matrices (rank $r=32$, $\alpha=64$, dropout $0.05$, bias `none`) into linear projection layers (`query`, `key`, `value`, `dense`). Only the adapter weights and the sequence-tagging classifier head are trained ($5.312\text{ M}$ trainable parameters out of $108.895\text{ M}$ total, representing $\approx 4.88\%$). The underlying PubMedBERT backbone remains completely frozen.
 
-**QLoRA:** identical to LoRA, but the frozen backbone is first loaded in **4-bit NF4 quantization** via `bitsandbytes` before the adapters are attached. This trades a small amount of extra compute for dramatically lower memory.
+**QLoRA:** Uses the identical adapter configuration ($r=32$, $\alpha=64$, target modules `['query', 'key', 'value', 'dense']`), but quantizes the frozen PubMedBERT backbone down to **4-bit NormalFloat4 (NF4)** with double quantization (`bnb_4bit_use_double_quant=True`) and FP16 compute dtype via `bitsandbytes`.
+> *Implementation & Fallback Note:* The notebook implementation includes an automatic fallback that trains the last two encoder layers and classifier head if 4-bit loading fails. All 8 QLoRA experimental runs reported in this benchmark ran with genuine 4-bit NF4 + LoRA (`[QLoRA] ✅ Real 4-bit NF4 + LoRA loaded`), verifying the 5.312M trainable parameter count across all QLoRA runs.
 
 <details>
 <summary><b>🐛 Critical implementation bug — encountered & fixed</b></summary>
@@ -247,6 +249,33 @@ This overrides GitHub's Linguist statistics engine, ensuring that all notebook c
 The new `classifier` head must be explicitly **excluded** from 4-bit quantization using `llm_int8_skip_modules=['classifier']` in `BitsAndBytesConfig`. Without this, the freshly-initialized (never-quantized) classifier layer causes an `AssertionError: module.weight.shape[1] == 1` crash on its very first forward pass inside `bitsandbytes`. This was a real bug encountered during development and fixed with the explicit exclusion.
 
 </details>
+
+<br/>
+
+### 🎛️ Complete Training Configurations & Hyperparameters
+
+Below are the exact hyperparameters extracted directly from the notebook configuration (`Cells 3, 5, 6, 7`):
+
+| Configuration Parameter | Value | Details / Implementation Reference |
+|:---|:---:|:---|
+| **Base Pretrained Model** | `PubMedBERT` | `microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract` (110M params) |
+| **Target Dataset** | `BC5CDR` (`tner/bc5cdr`) | Chemical & Disease NER (5 BIO labels: `O`, `B-Chemical`, `I-Chemical`, `B-Disease`, `I-Disease`) |
+| **Max Sequence Length** | `128` | Uniform maximum sequence length across all tokenized inputs |
+| **Max Epochs** | `4` | Early stopping terminates non-improving runs prior to epoch 4 |
+| **Early Stopping Patience** | `2` non-improving epochs | Monitored on validation loss / F1 |
+| **Per-Device Batch Size** | `16` | Tuned for 4GB VRAM safety |
+| **Gradient Accumulation** | `2` steps | **Effective batch size = 32** ($16 \times 2$) |
+| **Full FT Learning Rate** | `2e-5` | Conservative learning rate with Cosine decay |
+| **LoRA / QLoRA Learning Rate** | `3e-4` | Higher learning rate for adapter parameters with Cosine decay |
+| **Warmup Ratio** | `0.06` | Linear warmup over initial 6% of training steps |
+| **Weight Decay** | `0.01` | Applied to non-bias/layer-norm parameters |
+| **Label Smoothing** | `0.05` | Applied via HuggingFace `TrainingArguments` |
+| **Gradient Checkpointing** | `Enabled` | Reduces memory consumption during backpropagation |
+| **LoRA Rank ($r$) & Alpha ($\alpha$)** | $r=32$, $\alpha=64$ | Scaling factor $\alpha / r = 2.0$ |
+| **LoRA Target Modules** | `['query', 'key', 'value', 'dense']` | Injected across all 12 BERT transformer encoder layers |
+| **LoRA Dropout & Bias** | `0.05`, bias = `none` | Adapter-specific dropout |
+| **QLoRA Quantization** | `4-bit NF4` | Double quantization enabled, FP16 compute dtype, classifier head skipped |
+| **Random Seeds** | `42`, `123` | Used across all configurations to assess run-to-run variability |
 
 ---
 
@@ -260,8 +289,8 @@ Evaluated on the completely held-out **Test Set** (5,865 sentences) at the full 
 
 | Method | Test F1 | Test Precision | Test Recall | Test Accuracy | Trainable Params | Peak VRAM |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| 🥇 **QLoRA** | **0.8964** ± 0.0013 | **0.8771** | **0.9166** | 0.9782 | 5.3M (4.65%) | **0.496 GB** |
-| 🥈 **LoRA** | 0.8955 ± 0.0011 | 0.8768 | 0.9150 | 0.9783 | 5.3M (4.65%) | 0.805 GB |
+| 🥇 **QLoRA** | **0.8964** ± 0.0013 | **0.8771** | **0.9166** | 0.9782 | 5.312M (~4.88%) | **0.496 GB** |
+| 🥈 **LoRA** | 0.8955 ± 0.0011 | 0.8768 | 0.9150 | 0.9783 | 5.312M (~4.88%) | 0.805 GB |
 | 🥉 **Full Fine-Tuning** | 0.8913 ± 0.0040 | 0.8714 | 0.9120 | **0.9784** | 108.9M (100%) | 2.241 GB |
 
 > **Key takeaway:** QLoRA trains 20× fewer parameters and uses 4.5× less GPU memory than Full Fine-Tuning, yet outperforms it by **+0.51 F1 points** on the test set. Both adapter-based methods (LoRA and QLoRA) demonstrate superior generalization to held-out data compared to full-parameter updates.
@@ -342,7 +371,7 @@ To check whether the models perform consistently across different classes, we an
 
 ### 5. Training & Memory Efficiency
 
-This section outlines the physical resource usage. Memory was tracked automatically using CUDA peak allocation APIs, and training times represent execution on a consumer-grade laptop GPU (NVIDIA RTX 3050 Laptop GPU, 4.3 GB VRAM).
+This section outlines physical resource usage. Peak memory was tracked via `torch.cuda.max_memory_allocated() / 1e9` (peak allocated CUDA memory in GB), and execution times represent the `trainer.train()` session duration measured on a consumer-grade laptop GPU (NVIDIA RTX 3050 Laptop GPU, 4GB VRAM).
 
 <div align="center">
 <img src="figures/fig3_efficiency.png" alt="Training efficiency metrics" width="720"/>
@@ -352,8 +381,8 @@ This section outlines the physical resource usage. Memory was tracked automatica
 | Method | Trainable Params | % of Total | Peak VRAM | Full-Dataset Train Time | Across-Sizes Avg Train Time |
 |:---|:---:|:---:|:---:|:---:|:---:|
 | **Full Fine-Tuning** | 108.895 M | 100.0% | 2.241 GB | **9.26 minutes** | **5.30 minutes** |
-| **LoRA** | **5.312 M** | **4.65%** | 0.805 GB | 16.88 minutes | 8.92 minutes |
-| **QLoRA** | **5.312 M** | **4.65%** | **0.496 GB** | 21.43 minutes | 13.23 minutes |
+| **LoRA** | **5.312 M** | **~4.88%** | 0.805 GB | 16.88 minutes | 8.92 minutes |
+| **QLoRA** | **5.312 M** | **~4.88%** | **0.496 GB** | 21.43 minutes | 13.23 minutes |
 
 > **Efficiency Frontier Trade-offs:** QLoRA achieves a massive **77.8% VRAM reduction** compared to Full Fine-Tuning, fitting comfortably in under **0.5 GB of memory**. While NF4 quantization and double quantization introduce a ~2.3× training time overhead (due to on-the-fly dequantization during backward passes), the ability to fine-tune a state-of-the-art biomedical model on practically any consumer or embedded GPU makes it a highly advantageous trade-off.
 
@@ -442,8 +471,8 @@ An end-to-end interactive web application is built directly into the notebook an
 | Feature | Description |
 |:---|:---|
 | 🎨 **Dynamic Color-Coded Entity Highlighting** | Custom HTML/CSS span renderer that highlights <span style="background-color:#cce5ff; border:1px solid #0066cc; padding:2px 6px; border-radius:4px; font-weight:bold; color:#004085;">Chemical</span> entities in blue and <span style="background-color:#ffd6d6; border:1px solid #cc0000; padding:2px 6px; border-radius:4px; font-weight:bold; color:#721c24;">Disease</span> entities in red, complete with hover tooltips displaying prediction confidence percentages. |
-| 🔄 **On-the-Fly Model Switching** | Switch dynamically between **LoRA ($r=8$)** (Recommended — high accuracy + fast inference), **QLoRA (4-bit NF4)** (Ultra-low memory), and **Full Fine-Tuning** directly via the UI dropdown. Models are cached after first load to avoid redundant memory allocations. |
-| 📄 **PDF Document Extraction & Analysis** | Integrated with `PyMuPDF` (`fitz`) to allow users to drag-and-drop clinical case studies, pathology reports, or PubMed research papers in PDF format. Automatically extracts text (up to 3,000 characters / 600 words) and annotates all discovered chemicals and diseases. |
+| 🔄 **On-the-Fly Model Switching** | Switch dynamically between **LoRA ($r=32$)** (Recommended — high accuracy + fast inference), **QLoRA (4-bit NF4)** (Ultra-low memory), and **Full Fine-Tuning** directly via the UI dropdown. Models are cached after first load to avoid redundant memory allocations. |
+| 📄 **PDF Document Extraction & Analysis** | Integrated with `PyMuPDF` (`fitz`) to allow users to drag-and-drop clinical case studies, pathology reports, or PubMed research papers in PDF format. Automatically extracts text (up to the first 3,000 characters, ~500–600 words) and annotates all discovered chemicals and diseases. |
 | 📊 **Quantitative Entity Statistics** | Displays a structured summary table showing total entity counts (e.g., *Total Chemicals: 3, Total Diseases: 2*) along with confidence-ranked entity lists. |
 | 💊 **Preloaded Clinical Benchmarks** | Includes four one-click clinical examples covering adverse drug reactions (ADRs), oncology chemotherapy (Cisplatin/Amifostine), autoimmune treatment (Methotrexate), and cardiovascular emergency (Naloxone/Clonidine). |
 
@@ -531,7 +560,7 @@ This project was designed to survive real-world interruptions (Colab disconnects
 3. Run Cell 1 (installs deps) → Restart kernel
 4. Run Cell 3 → approve Google Drive mount
 5. Run training cell → resumes automatically if interrupted
-6. Run backfill cell → computes held-out test scores for all 24 runs
+6. Run backfill cell → calculates / verifies test-set scores across all 24 runs
 7. Run figure cells → generates all plots
 8. Run Cell 23 → launches interactive Gradio Web App
 9. (Optional) Run Cell 24 → uploads best models to Hugging Face Hub
@@ -616,11 +645,11 @@ Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoR
 
 | Aspect | Choice | Rationale |
 |:---|:---|:---|
-| **Primary metric** | Entity-level F1 via `seqeval` | Scores whole entity spans — the standard for published NER papers |
-| **Secondary metrics** | Precision · Recall · Token Accuracy | Full picture of error modes |
-| **Validation set** | Early stopping + checkpoint selection **only** | Not used in any reported score |
-| **Test set** | Evaluated once after training, via backfill cell | True held-out — zero selection bias |
-| **Aggregation** | Mean ± Std over 2 seeds | Removes lucky/unlucky initialization noise |
+| **Primary metric** | Entity-level F1 via `seqeval` | Scores whole entity spans (strict boundary matching) — standard for published NER papers |
+| **Secondary metrics** | Entity Precision · Entity Recall · Token Accuracy | `seqeval` span-level Precision & Recall; token-level BIO tag classification accuracy |
+| **Validation set** | Early stopping & checkpoint selection | Used during training to monitor convergence; not used for final test reporting |
+| **Test set** | Evaluated after training (with backfill procedure available) | Held-out test set evaluation for final benchmarking. Validation F1 is recommended for checkpoint and deployment seed selection to preserve strict generalization |
+| **Aggregation** | Mean ± Std over 2 seeds | Assesses run-to-run variability under different random initializations (does not eliminate randomness) |
 | **Granularity** | Per-entity Chemical + Disease breakdown | Reveals entity-specific difficulty |
 | **Hardware** | NVIDIA RTX 3050 4GB Laptop GPU | Represents the realistic resource-constrained setting this project targets |
 
@@ -633,7 +662,7 @@ Efficient-Reproducible-Biomedical-NER-A-Comparative-Evaluation-FFT-LoRA-and-QLoR
 | **2 seeds only** | Sufficient to show consistent trends; thin basis for strong statistical claims. Disclosed honestly rather than overclaiming. |
 | **Single dataset** | BC5CDR only. Generalization to other biomedical NER corpora (NCBI Disease, BioNLP) not tested. |
 | **Single base model** | PubMedBERT only. Results may differ for BioBERT, ClinicalBERT, or larger models. |
-| **Default hyperparameters** | LoRA rank r=8 and learning rates were reasonable defaults, not grid-searched. |
+| **Default hyperparameters** | LoRA rank r=32 (lora_alpha=64, lora_dropout=0.05, target modules query, key, value, dense) and learning rates were chosen defaults, not grid-searched. |
 
 ---
 
