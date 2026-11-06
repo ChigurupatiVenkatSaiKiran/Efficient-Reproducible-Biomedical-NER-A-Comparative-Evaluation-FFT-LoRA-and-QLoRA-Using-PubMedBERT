@@ -242,7 +242,7 @@ This overrides GitHub's Linguist statistics engine, ensuring that all notebook c
 **LoRA:** Injects low-rank adapter matrices (rank $r=32$, $\alpha=64$, dropout $0.05$, bias `none`) into linear projection layers (`query`, `key`, `value`, `dense`). Only the adapter weights and the sequence-tagging classifier head are trained ($5.312\text{ M}$ trainable parameters out of $108.895\text{ M}$ total, representing $\approx 4.88\%$). The underlying PubMedBERT backbone remains completely frozen.
 
 **QLoRA:** Uses the identical adapter configuration ($r=32$, $\alpha=64$, target modules `['query', 'key', 'value', 'dense']`), but quantizes the frozen PubMedBERT backbone down to **4-bit NormalFloat4 (NF4)** with double quantization (`bnb_4bit_use_double_quant=True`) and FP16 compute dtype via `bitsandbytes`.
-> *Implementation & Fallback Note:* The notebook implementation includes an automatic fallback that trains the last two encoder layers and classifier head if 4-bit loading fails. All 8 QLoRA experimental runs reported in this benchmark ran with genuine 4-bit NF4 + LoRA (`[QLoRA] ✅ Real 4-bit NF4 + LoRA loaded`), verifying the 5.312M trainable parameter count across all QLoRA runs.
+> *Implementation Note:* The training pipeline implements genuine 4-bit NF4 quantization with double quantization for all QLoRA experiments (with an automated fallback for environments lacking 4-bit CUDA support).
 
 <details>
 <summary><b>🐛 Critical implementation bug: encountered & fixed</b></summary>
